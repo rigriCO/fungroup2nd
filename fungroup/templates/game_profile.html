@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="/" style="text-decoration: none; color: #007bff; font-weight: bold;">← Назад к играм</a>
+<h2 style="margin-top: 15px;">Анкеты игроков: {{ game.name }}</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Игрок</th>
+            <th>Описание / Цель поиска</th>
+            <th>Ранг / Уровень</th>
+            <th>Тип</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for profile in profiles %}
+        <tr onclick="window.location.href='/profile/{{ profile.id }}'">
+            <td><strong>{{ profile.username }}</strong></td>
+            <td>{{ profile.title }}</td>
+            <td>{{ profile.rank }}</td>
+            <td>{{ profile.price_or_type }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" style="text-align: center; opacity: 0.6;">Пока нет созданных анкет для этой игры.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block sidebar %}
+<div class="stat-card">
+    <h4>Категория</h4>
+    <div class="stat-value" style="color: #007bff;">{{ game.name }}</div>
+</div>
+{% endblock %}

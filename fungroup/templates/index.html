@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .search-section { margin-bottom: 25px; }
+    .search-input { width: 100%; max-width: 400px; padding: 10px 14px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); border-radius: 6px; font-size: 15px; }
+    
+    .recent-section { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; background: rgba(0,0,0,0.02); padding: 12px; border-radius: 6px; }
+    .recent-title { font-weight: bold; opacity: 0.7; width: 120px; font-size: 14px; }
+    .game-badge { display: flex; align-items: center; gap: 8px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 20px; text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 13px; }
+    .game-badge img { width: 20px; height: 20px; border-radius: 50%; }
+
+    .alphabet-row { display: flex; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+    .letter-box { width: 40px; font-weight: bold; font-size: 20px; color: #007bff; text-align: center; }
+    .games-grid { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .game-item { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-color); font-size: 14px; padding: 6px; border-radius: 4px; transition: background 0.2s; }
+    .game-item:hover { background: rgba(0, 123, 255, 0.1); }
+    .game-icon-circle { width: 32px; height: 32px; border-radius: 50%; background: #eee; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border-color); }
+    .game-icon-circle img { width: 100%; height: 100%; object-fit: cover; }
+</style>
+
+<div class="search-section">
+    <form method="GET" action="/">
+        <label style="font-weight: bold; display: block; margin-bottom: 6px;">Поиск игр:</label>
+        <input type="text" name="q" class="search-input" placeholder="Впишите игру..." value="{{ search_query }}">
+    </form>
+</div>
+
+<div class="recent-section">
+    <div class="recent-title">Последний поиск:</div>
+    {% for game in recent_games %}
+    <a href="/game/{{ game.slug }}" class="game-badge">
+        <img src="{{ game.icon_url }}" alt="">
+        <span>{{ game.name }}</span>
+    </a>
+    {% endfor %}
+</div>
+
+<h3 style="margin-bottom: 20px;">Игры в алфавитном порядке</h3>
+
+{% for letter, games in grouped_games.items() %}
+<div class="alphabet-row">
+    <div class="letter-box">{{ letter }}</div>
+    <div class="games-grid">
+        {% for game in games %}
+        <a href="/game/{{ game.slug }}" class="game-item">
+            <div class="game-icon-circle">
+                <img src="{{ game.icon_url }}" alt="icon" onerror="this.src='https://via.placeholder.com/32?text={{ letter }}'">
+            </div>
+            <span>{{ game.name }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<p>Игры не найдены.</p>
+{% endfor %}
+
+{% endblock %}
+
+{% block sidebar %}
+<div class="stat-card">
+    <h4>Зарегистрировано аккаунтов</h4>
+    <div class="stat-value">{{ stats.total_users }}</div>
+</div>
+
+<div class="stat-card">
+    <h4>Самая популярная игра по поискам</h4>
+    <div class="stat-value" style="color: #ff9800;">{{ stats.popular_game }}</div>
+</div>
+
+<div class="stat-card">
+    <h4>Дата регистрации вашего аккаунта</h4>
+    <div class="stat-value" style="font-size: 15px; opacity: 0.8;">{{ stats.user_reg_date }}</div>
+</div>
+{% endblock %}

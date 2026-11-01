@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="javascript:history.back()" style="text-decoration: none; color: #007bff; font-weight: bold;">← Назад</a>
+<h2 style="margin-top: 15px;">{{ profile.title }}</h2>
+<p><strong>Игра:</strong> {{ profile.game_name }}</p>
+<p><strong>Игрок:</strong> <span style="color: #007bff; font-weight: bold;">{{ profile.username }}</span></p>
+<p><strong>Уровень/Ранг:</strong> {{ profile.rank }}</p>
+<p><strong>Тип поиска:</strong> {{ profile.price_or_type }}</p>
+<hr style="border: none; border-top: 1px solid var(--border-color); margin: 20px 0;">
+<h3>Подробное описание</h3>
+<p style="line-height: 1.5;">{{ profile.description }}</p>
+<br>
+<a href="/messages" style="display: inline-block; padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">Написать игроку</a>
+{% endblock %}
+
+{% block sidebar %}
+<div class="stat-card">
+    <h4>Автор анкеты</h4>
+    <div class="stat-value">{{ profile.username }}</div>
+</div>
+{% endblock %}

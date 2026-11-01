@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="/" style="text-decoration: none; color: #007bff; font-weight: bold;">← На главную</a>
+<h2>Регистрация нового аккаунта</h2>
+<hr style="border: none; border-top: 1px solid var(--border-color); margin-bottom: 20px;">
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div style="padding: 12px; margin-bottom: 15px; background: #ffdddd; color: #d9534f; border-radius: 6px; font-weight: bold; border: 1px solid #d9534f;">⚠️ {{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<form method="POST" style="max-width: 400px;">
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 6px; font-weight: bold;">Уникальный никнейм:</label>
+        <input type="text" name="username" required placeholder="Придумайте ник..." style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color);">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 6px; font-weight: bold;">Пароль:</label>
+        <div style="position: relative;">
+            <input type="password" name="password" id="password" required placeholder="Введите пароль..." style="width: 100%; padding: 10px; padding-right: 40px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color);">
+            <span onclick="togglePassword('password', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; user-select: none;">👁️</span>
+        </div>
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 6px; font-weight: bold;">Повторите пароль:</label>
+        <div style="position: relative;">
+            <input type="password" name="confirm_password" id="confirm_password" required placeholder="Повторите пароль..." style="width: 100%; padding: 10px; padding-right: 40px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color);">
+            <span onclick="togglePassword('confirm_password', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; user-select: none;">👁️</span>
+        </div>
+    </div>
+
+    <button type="submit" style="width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Зарегистрироваться</button>
+</form>
+<p style="margin-top: 15px;">Уже есть аккаунт? <a href="/login" style="color: #007bff;">Войти</a></p>
+
+<script>
+    function togglePassword(fieldId, iconElement) {
+        const inputField = document.getElementById(fieldId);
+        if (inputField.type === "password") {
+            inputField.type = "text";
+            iconElement.textContent = "🙈";
+        } else {
+            inputField.type = "password";
+            iconElement.textContent = "👁️";
+        }
+    }
+</script>
+{% endblock %}
